@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html><head> 
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type"> 
+<title>How Oid is Sarah ?</title>
+
+<style>
+table {
+  font-family: times;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+h1{
+ font-size:  70px;
+text-align: center;
+}
+td, th {
+  font-size: 60px;
+  border: 3px solid #bbbbee;
+  text-align: center;
+  padding: 4px;
+}
+</style>
+</head>
+<body>
+<h1>🍓 Sarah is . . .🍓
+</h1>
+<table>
+<tr><td><label id="yearLabel">1</label>
+<label id="yearText"> years</label>
+</td> </tr><tr><td>
+<label id="monthLabel">12</label>
+<label id="monthText"> months</label></td></tr><tr> <td>
+<label id="dayLabel">12</label>
+<label id="dayText"> days</label>
+</td></tr><tr><td>
+<label id="hourLabel">12</label>
+<label id="hourText"> hours</label>
+</td></tr><tr><td><label id="minuteLabel">12</label>
+<label id="minuteText"> minutes and</label></td></tr><tr><td><label id="secondLabel">12</label>
+<label id="secondText"> seconds</label></td></tr><tr><td><label> old ! 🦒</label></td>
+</tr>
+</table>
+
+<script>
+function fillTable() {
+let daysInMonth = [0,31,59,90,120,151,181,212,243,273,304,334];
+let daysInMonthLeap = [0,31,60,91,121,152,182,213,244,274,305,335];
+
+let yearInDays = 365.25;
+/// 365.242189;
+var today = Date.now();
+var theDate = new Date(today);
+var theYear = theDate.getFullYear();
+
+var yearOver4 = theYear/4.0;
+var isLeapYear = yearOver4 -  Math.floor(yearOver4) < 0.1;
+
+var timeNowSeconds = today / 1000.0;
+
+var birthDateString = "04/05/2008 08:30:00";
+  var offset = theDate.getTimezoneOffset() / 60;
+
+if(offset<0){
+birthDateString = birthDateString.concat(
+" GMT+0", -offset  ,"00");
+}
+else{
+birthDateString = birthDateString.concat(
+" GMT-0", offset  ,"00");
+}
+
+// alert(birthDateString);
+
+var birthDate = new Date(birthDateString);
+
+var timeDifferenceSeconds = timeNowSeconds
+ - (birthDate.getTime() /1000.0);
+
+// Days
+var temp = timeDifferenceSeconds / (3600*24);
+
+var tdYears = Math.floor(temp/yearInDays);
+
+// Days left
+temp = (temp - tdYears * yearInDays);
+
+var k = 0;
+var dayCount;
+if( isLeapYear){
+dayCount = daysInMonthLeap;
+}
+else{
+dayCount = daysInMonth;
+}
+
+while(temp >=  dayCount[k] ){
+k++;
+if(k >= 12){
+break;
+}
+}
+k-- ;
+
+var tdMonths = k;
+
+temp  -= dayCount[k] ;
+
+var tdDays = Math.floor(temp);
+temp = (temp - tdDays)*24.0 ;
+var tdHours = Math.floor(temp);
+temp = (temp - tdHours) * 60.0;
+var tdMinutes = Math.floor(temp);
+temp = (temp - tdMinutes) * 60.0;
+var tdSeconds = Math.floor(temp);
+
+ var yearLabel=    document.getElementById( "yearLabel");
+var monthLabel=    document.getElementById( "monthLabel");
+var dayLabel=    document.getElementById( "dayLabel");
+var hourLabel=    document.getElementById( "hourLabel");
+var minuteLabel=    document.getElementById( "minuteLabel");
+var secondLabel=    document.getElementById( "secondLabel");
+
+yearLabel.innerHTML = tdYears;
+monthLabel.innerHTML = tdMonths;
+dayLabel.innerHTML = tdDays;
+hourLabel.innerHTML = tdHours > 0 ? tdHours : "";
+minuteLabel.innerHTML = tdMinutes > 0 ? tdMinutes : "";
+secondLabel.innerHTML = 
+tdSeconds > 0 ? tdSeconds : "";
+
+var monthText = document.getElementById("monthText");
+var dayText = document.getElementById("dayText");
+var hourText = document.getElementById("hourText");
+var minuteText = document.getElementById("minuteText");
+var secondText = document.getElementById("secondText");
+
+if(tdMonths == 0){
+monthText.innerHTML= "";
+}
+else if(tdMonths == 1) {
+monthText.innerHTML="month";
+}
+else {
+monthText.innerHTML="months";
+}
+if(tdDays == 0){
+dayText.innerHTML="";
+}
+else if(tdDays == 1){
+dayText.innerHTML="day";
+}
+else {
+dayText.innerHTML="days";
+}
+if(tdHours == 0){
+hourText.innerHTML="";
+}
+if(tdHours == 1){
+hourText.innerHTML="hour";
+}
+else {
+hourText.innerHTML="hours";
+}
+
+if(tdMinutes == 0){
+minuteText.innerHTML="";
+}
+else if(tdMinutes == 1){
+minuteText.innerHTML="minute";
+}
+else {
+minuteText.innerHTML="minutes";
+}
+if(tdSeconds == 0){
+secondText.innerHTML="";
+}
+else if(tdSeconds == 1){
+secondText.innerHTML="second";
+}
+else {
+secondText.innerHTML="seconds";
+}
+
+if(tdSeconds >0){
+minuteText.innerHTML = minuteText.innerHTML +  " and";
+}
+else if(tdMinutes>0){
+hourText.innerHTML = hourText.innerHTML +  " and";
+}
+else if(tdHours>0){
+dayText.innerHTML = dayText.innerHTML  +  " and";
+}
+else if(tdDays>0){
+monthText.innerHTML
+= monthText.innerHTML  +  " and";
+}
+else if(tdMonths>0){
+yearText.innerHTML
+= yearText.innerHTML  +  " and";
+}
+
+  setTimeout(fillTable,1000) ;
+}
+window.onload=fillTable();
+</script>
+</body>
+</html>
